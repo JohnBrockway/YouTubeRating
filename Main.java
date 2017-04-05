@@ -24,68 +24,93 @@ public class Main {
 
 	private static ModelYouTube youtubeModel;
 	private static JFrame frame;
-	private static JComponent grid;
+	private static JComponent grid5;
+	private static JComponent grid4;
+	private static JComponent grid3;
+	private static JComponent grid2;
+	private static JComponent grid1;
 	private static JComponent list;
 	private static JScrollPane scroll;
+
+	/*
+	 * API key obtained by following this guide:
+	 * https://developers.google.com/youtube/registering_an_application#create_project
+	 */ 
+	public static void main(String[] args) {
+
+		youtubeModel = new ModelYouTube("AIzaSyB4yqXu2ry3TImM_xzGMwkOCHM0IVeWwow");
+
+		JComponent toolbar = new ToolbarView(youtubeModel);
+		toolbar.setBorder(BorderFactory.createRaisedBevelBorder());
+
+		JPanel p = new JPanel();
+
+		grid5 = new GridView(youtubeModel, 5);
+		grid4 = new GridView(youtubeModel, 4);
+		grid3 = new GridView(youtubeModel, 3);
+		grid2 = new GridView(youtubeModel, 2);
+		grid1 = new GridView(youtubeModel, 1);
+
+		list = new ListView(youtubeModel);
+
+		scroll = new JScrollPane(list);
+		scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+
+		frame = new JFrame("Youtube Search");
+		frame.getContentPane().setLayout(new BorderLayout());
+		frame.getContentPane().add(toolbar, BorderLayout.NORTH);
+		frame.getContentPane().add(scroll, BorderLayout.CENTER);
+		frame.pack();
+		frame.setSize(1280, 700);
+		frame.setMinimumSize(new Dimension(400, 150));
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.addComponentListener(new ComponentAdapter() {
+			public void componentResized(ComponentEvent e) {
+				System.out.println(frame.getWidth());
+				if (youtubeModel.isGrid()) {
+					if (frame.getWidth() >= 1150) changeGrid(5);
+					else if (frame.getWidth() < 1150 && frame.getWidth() >= 950) changeGrid(4);
+					else if (frame.getWidth() < 950 && frame.getWidth() >= 750) changeGrid(3);
+					else if (frame.getWidth() < 750 && frame.getWidth() >= 550) changeGrid(2);
+					else if (frame.getWidth() < 550) changeGrid(1);
+				}
+			}
+		});
+		frame.setVisible(true);
+	}
+
+	public static void update() {
+		if (youtubeModel.isGrid()) {
+			if (frame.getWidth() >= 1150) changeGrid(5);
+			else if (frame.getWidth() < 1150 && frame.getWidth() >= 950) changeGrid(4);
+			else if (frame.getWidth() < 950 && frame.getWidth() >= 750) changeGrid(3);
+			else if (frame.getWidth() < 750 && frame.getWidth() >= 550) changeGrid(2);
+			else if (frame.getWidth() < 550) changeGrid(1);
+		}
+		else {
+			frame.getContentPane().remove(scroll);
+			scroll = new JScrollPane(list);
+			scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+			scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+			frame.getContentPane().add(scroll, BorderLayout.CENTER);    
+			frame.repaint();
+			frame.validate();		
+		}
+	}
 	
-    /*
-     * API key obtained by following this guide:
-     * https://developers.google.com/youtube/registering_an_application#create_project
-     */ 
-    public static void main(String[] args) {
-        
-        youtubeModel = new ModelYouTube("AIzaSyB4yqXu2ry3TImM_xzGMwkOCHM0IVeWwow");
-        
-        JComponent toolbar = new ToolbarView(youtubeModel);
-        toolbar.setBorder(BorderFactory.createRaisedBevelBorder());
-        
-        JPanel p = new JPanel();
-        
-        grid = new GridView(youtubeModel, 3, p);
-        
-        list = new ListView(youtubeModel);
-        
-        scroll = new JScrollPane(list);
+	public static void changeGrid (int width) {
+		frame.getContentPane().remove(scroll);
+		if (width == 5) scroll = new JScrollPane(grid5);
+		if (width == 4) scroll = new JScrollPane(grid4);
+		if (width == 3) scroll = new JScrollPane(grid3);
+		if (width == 2) scroll = new JScrollPane(grid2);
+		if (width == 1) scroll = new JScrollPane(grid1);
         scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        
-        frame = new JFrame("Youtube Search");
-        frame.getContentPane().setLayout(new BorderLayout());
-        frame.getContentPane().add(toolbar, BorderLayout.NORTH);
-        frame.getContentPane().add(scroll, BorderLayout.CENTER);
-        frame.pack();
-        frame.setSize(1280, 700);
-        frame.setMinimumSize(new Dimension(400, 150));
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.addComponentListener(new ComponentAdapter() {
-            public void componentResized(ComponentEvent e) {
-                if (frame.getWidth() < 600) {
-                	
-                }
-            }
-        });
-        frame.setVisible(true);
-    }
-    
-    public static void update() {
-    	if (youtubeModel.isGrid()) {
-    		frame.getContentPane().remove(scroll);
-            scroll = new JScrollPane(grid);
-            scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-            scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-    		frame.getContentPane().add(scroll, BorderLayout.CENTER);
-    		frame.repaint();
-    		frame.validate();
-    	}
-    	else {
-    		frame.getContentPane().remove(scroll);
-            scroll = new JScrollPane(list);
-            scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-            scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-    		frame.getContentPane().add(scroll, BorderLayout.CENTER);    
-    		frame.repaint();
-    		frame.validate();		
-    	}
-    }
+		frame.getContentPane().add(scroll, BorderLayout.CENTER);
+		frame.repaint();
+		frame.validate();
+	}
 
 }

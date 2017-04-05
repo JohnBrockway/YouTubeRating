@@ -24,7 +24,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
-public class GridView extends JScrollPane implements View {
+public class GridView extends JPanel implements View {
 
 	private ModelYouTube model;
 
@@ -32,26 +32,18 @@ public class GridView extends JScrollPane implements View {
 	private ImageIcon starFull;
 
 	private GridLayout layout;
-	
-	private JPanel p;
 
-	public GridView(ModelYouTube model, int width, JPanel p) {
-		super(p);
-		this.p = p;
+	public GridView(ModelYouTube model, int width) {
 		this.model = model;
 		this.model.addView(this);
 
-		layout = new GridLayout((int)Math.ceil(25.0/width), width);
+		this.setLayout(new GridLayout((int)Math.ceil(25.0/width), width));
 	}
 
 	@Override
 	public void update() {
 		this.removeAll();
-		//this.setLayout(layout);
-		p.setLayout(layout);
-
 		for (int i = 0 ; i < model.getResults() ; i++) {
-
 			JPanel panel = new JPanel();
 			panel.setLayout(new BorderLayout());
 			JPanel top = new JPanel();
@@ -137,11 +129,10 @@ public class GridView extends JScrollPane implements View {
 			panel.setPreferredSize(new Dimension(200, 200));
 			panel.setMinimumSize(new Dimension (200, 200));
 			panel.setBorder(BorderFactory.createEtchedBorder());
-			p.add(panel);
+			this.add(panel);
 //			repaint();
 //			validate();
 		}
-		this.add(p);
 		repaint();
 		validate();
 		setVisible(true);

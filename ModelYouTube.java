@@ -160,6 +160,7 @@ public class ModelYouTube {
 		for (View view: views) {
 			view.update();
 		}
+		Main.update();
 	}
 
 	public boolean isGrid() {

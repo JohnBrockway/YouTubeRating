@@ -30,6 +30,7 @@ public class ListView extends JPanel implements View{
 	
 	@Override
 	public void update() {
+		this.removeAll();
 		for (int i = 0 ; i < model.getResults() ; i++) {
 			JPanel panel = new JPanel();
 			panel.setLayout(new GridLayout(1, 2));
