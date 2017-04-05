@@ -108,7 +108,10 @@ public class ToolbarView extends JPanel implements View {
     				e.getSource();
     		        for (int i = 0 ; i < stars.length ; i++) {
     		        	if (e.getComponent() == stars[i]) {
-    		        		model.setFilter(i+1);
+    		        		if (model.getFilter() == i + 1)
+    		        			model.setFilter(0);
+    		        		else
+    		        			model.setFilter(i+1);
     		        		break;
     		        	}
     		        }
