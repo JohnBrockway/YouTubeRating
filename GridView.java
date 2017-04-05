@@ -80,7 +80,8 @@ public class GridView extends JPanel implements View {
 							e.getSource();
 							for (int m = 0 ; m < stars.length ; m++) {
 								if (e.getComponent() == stars[m]) {
-									model.setRating(curVid, curStar);
+									if (model.ratings[curVid] == curStar) model.setRating(curVid, 0);
+									else model.setRating(curVid, curStar);
 									break;
 								}
 							}
