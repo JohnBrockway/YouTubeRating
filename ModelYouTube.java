@@ -43,7 +43,7 @@ public class ModelYouTube {
 	public URL[] videoLinks;
 	public int[] ratings;
 
-	// good idea to dis-allow default constructor usage because an API key is strictly necessary
+	// Dis-allow default constructor usage because an API key is strictly necessary
 	private ModelYouTube() {}
 
 	/*
@@ -89,7 +89,7 @@ public class ModelYouTube {
 	 */
 	public void searchVideos() {
 		numResults = 0;
-		
+		this.filter = 0;		
 		new Thread() {
 			public void run() {
 				if (youtube == null) {
@@ -191,6 +191,11 @@ public class ModelYouTube {
 
 	public void setQuery(String query) {
 		this.query = query;
+	}
+	
+	public void setRating(int video, int rating) {
+		ratings[video] = rating;
+		this.notifyViews();
 	}
 
 	// helper calls for error reporting and debugging

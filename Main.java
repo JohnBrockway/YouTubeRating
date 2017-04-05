@@ -67,7 +67,6 @@ public class Main {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.addComponentListener(new ComponentAdapter() {
 			public void componentResized(ComponentEvent e) {
-				System.out.println(frame.getWidth());
 				if (youtubeModel.isGrid()) {
 					if (frame.getWidth() >= 1150) changeGrid(5);
 					else if (frame.getWidth() < 1150 && frame.getWidth() >= 950) changeGrid(4);
